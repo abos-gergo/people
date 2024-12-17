@@ -1,11 +1,9 @@
 <template>
-    <div v-if="person">
+    <button @click="goBack">Go back</button>
+    <div>
         <h2>{{ person.first_name }} {{ person.last_name }}</h2>
         <p>{{ person.email }}</p>
         <img :src="person.avatar" alt="Avatar" class="avatar" />
-    </div>
-    <div v-else>
-        <h1>No ID was given.</h1>
     </div>
 </template>
 
@@ -20,9 +18,18 @@ import { computed } from 'vue';
 import peopleData from '../peopledata';
 
 const person = computed(() => peopleData.find(p => p.id == props.id))
+
+const goBack = () => {
+    window.history.back();
+}
 </script>
 
 <style scoped>
+button {
+    height: 50px;
+    width: 150px;
+}
+
 div {
     width: 300px;
     margin: auto;

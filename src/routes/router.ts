@@ -1,24 +1,33 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import PeopleList from '../pages/PeopleList.vue';
-import PersonFull from '../pages/PersonFull.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import PeopleList from "../pages/PeopleList.vue";
+import PersonFull from "../pages/PersonFull.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'PeopleList',
+    path: "/",
+    redirect: "/emberek",
+  },
+  {
+    path: "/emberek",
+    name: "PeopleList",
     component: PeopleList,
   },
   {
-    path: '/:id',  // Dynamic route for individual person's details
-    name: 'PersonFull',
+    path: "/emberek/:id",
+    name: "PersonFull",
     component: PersonFull,
-    props: true,  // Pass the route params as props to the component
+    props: true,
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+  scrollBehavior(from, to, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+  },
 });
 
 export default router;

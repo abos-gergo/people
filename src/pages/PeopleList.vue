@@ -1,52 +1,30 @@
 <template>
+  <div class="filters">
+    <button @click="sortTable('first_name')">
+      <p :class="sortingBy === 'first_name' ? (sortingDir === 'asc' ? 'arrow-up' : 'arrow-down') : 'no-arrow'">First
+        name
+      </p>
+    </button>
+    <button @click="sortTable('last_name')">
+      <p :class="sortingBy === 'last_name' ? (sortingDir === 'asc' ? 'arrow-up' : 'arrow-down') : 'no-arrow'">Last name
+      </p>
+    </button>
+    <button @click="sortTable('id')">
+      <p :class="sortingBy === 'id' ? (sortingDir === 'asc' ? 'arrow-up' : 'arrow-down') : 'no-arrow'">ID
+      </p>
+    </button>
+    <button @click="sortTable('email')">
+      <p :class="sortingBy === 'email' ? (sortingDir === 'asc' ? 'arrow-up' : 'arrow-down') : 'no-arrow'">Email
+      </p>
+    </button>
+  </div>
+
   <div class="people-list">
     <PersonCard class="card" v-for="person in sortedPeople" :key="person.id" :person="person"></PersonCard>
-    <!-- <table>
-      <thead>
-        <tr>
-          <th @click="sortTable('id')">
-            ID
-            <span v-if="sortingBy === 'id'">
-              <i :class="sortingDir === 'asc' ? 'arrow-up' : 'arrow-down'"></i>
-            </span>
-          </th>
-          <th @click="sortTable('avatar')">
-            Avatar
-          </th>
-          <th @click="sortTable('first_name')">
-            First Name
-            <span v-if="sortingBy === 'first_name'">
-              <i :class="sortingDir === 'asc' ? 'arrow-up' : 'arrow-down'"></i>
-            </span>
-          </th>
-          <th @click="sortTable('last_name')">
-            Last Name
-            <span v-if="sortingBy === 'last_name'">
-              <i :class="sortingDir === 'asc' ? 'arrow-up' : 'arrow-down'"></i>
-            </span>
-          </th>
-          <th @click="sortTable('email')">
-            Email
-            <span v-if="sortingBy === 'email'">
-              <i :class="sortingDir === 'asc' ? 'arrow-up' : 'arrow-down'"></i>
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="person in sortedPeople" :key="person.id" @click="goToUser(person.id)">
-          <td>{{ person.id }}</td>
-          <td>
-            <img :src="person.avatar" alt="Avatar" class="avatar" />
-          </td>
-          <td>{{ person.first_name }}</td>
-          <td>{{ person.last_name }}</td>
-          <td>{{ person.email }}</td>
-        </tr>
-      </tbody>
-    </table> -->
   </div>
+  <div id="scroll-test">Ez a div csak azért van itt, hogy a scroll visszaállítását tesztelni lehessen.</div>
 </template>
+
 
 <script setup>
 import { ref, computed } from 'vue';
@@ -71,17 +49,16 @@ const sortedPeople = computed(() => {
       // Numeric comparison
       return sortingDir.value === 'asc' ? aValue - bValue : bValue - aValue;
     }
-    return 0; // If the types do not match or are not comparable
+    return 0;
   });
 });
 
 const sortTable = (column) => {
-  // Toggle sorting direction if the same column is clicked
   if (sortingBy.value === column) {
     sortingDir.value = sortingDir.value === 'asc' ? 'desc' : 'asc';
   } else {
     sortingBy.value = column;
-    sortingDir.value = 'asc'; // Default to ascending when a new column is selected
+    sortingDir.value = 'asc';
   }
 };
 
@@ -95,57 +72,46 @@ const goToUser = (userId) => {
 </script>
 
 <style scoped>
-/* .people-list {
-  max-width: 100%;
-  overflow-x: auto;
+.filters {
+  margin: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+.filters button {
+  min-width: 150px;
 }
 
-th,
-td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-  cursor: pointer;
-}
-
-th {
-  background-color: #f4f4f4;
-}
-
-tr:hover {
-  background-color: #ddd;
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-.arrow-up::before {
-  content: '↑';
+.no-arrow::after {
+  content: ' -';
   font-size: 16px;
 }
 
-.arrow-down::before {
-  content: '↓';
+.arrow-up::after {
+  content: ' ↑';
   font-size: 16px;
-} */
-  .people-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
- .card {
+}
+
+.arrow-down::after {
+  content: ' ↓';
+  font-size: 16px;
+}
+
+.people-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.card {
   min-width: 300px;
   max-width: 500px;
   flex: 1;
- }
+}
+
+#scroll-test {
+  margin-top: 100vh;
+}
 </style>

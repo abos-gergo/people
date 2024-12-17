@@ -1,56 +1,73 @@
-<script setup lang="ts">
-import books from '../bookdata.ts'
-</script>
-
 <template>
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Image</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(book, index) in books" :key="index">
-          <td>{{ book.title }}</td>
-          <td>{{ book.author }}</td>
-          <td><img :src="book.img_url" :alt="book.title" class="book-image" /></td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="person-card" @click="navigateToDetails">
+    <img :src="person.avatar" :alt="`${person.first_name} ${person.last_name}`" class="avatar" />
+    <div class="person-info">
+      <h2>{{ fullName }}</h2>
+      <p>{{ person.email }}</p>
+    </div>
   </div>
 </template>
 
+<script setup>
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+const props = defineProps({
+  person: {
+    type: Object,
+    required: true,
+    validator: (p) =>
+      typeof p.id === 'number' &&
+      typeof p.email === 'string' &&
+      typeof p.first_name === 'string' &&
+      typeof p.last_name === 'string' &&
+      typeof p.avatar === 'string',
+  },
+})
+
+const router = useRouter()
+
+const fullName = computed(() => `${props.person.first_name} ${props.person.last_name}`)
+
+function navigateToDetails() {
+  router.push({ name: 'PersonFull', params: { id: props.person.id } })
+}
+</script>
+
 <style scoped>
-.table-container {
+.person-card {
   display: flex;
-  justify-content: center;
-  padding: 20px;
+  align-items: center;
+  cursor: pointer;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: box-shadow 0.2s ease;
 }
 
-table {
-  width: 100%;
-  max-width: 1000px;
-  border-collapse: collapse;
-  text-align: left;
+.person-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-th,
-td {
-  padding: 10px;
-  border: 1px solid #ddd;
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 1rem;
 }
 
-th {
-  background-color: #f4f4f4;
-  font-weight: bold;
+.person-info {
+  display: flex;
+  flex-direction: column;
 }
 
-.book-image {
-  width: 50px;
-  height: auto;
-  border-radius: 5px;
+h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+p {
+  margin: 0.25rem 0 0;
+  color: #555;
 }
 </style>

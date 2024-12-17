@@ -1,6 +1,7 @@
 <template>
   <div class="people-list">
-    <table>
+    <PersonCard class="card" v-for="person in sortedPeople" :key="person.id" :person="person"></PersonCard>
+    <!-- <table>
       <thead>
         <tr>
           <th @click="sortTable('id')">
@@ -33,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="person in sortedPeople" :key="person.id">
+        <tr v-for="person in sortedPeople" :key="person.id" @click="goToUser(person.id)">
           <td>{{ person.id }}</td>
           <td>
             <img :src="person.avatar" alt="Avatar" class="avatar" />
@@ -43,7 +44,7 @@
           <td>{{ person.email }}</td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
   </div>
 </template>
 
@@ -83,10 +84,18 @@ const sortTable = (column) => {
     sortingDir.value = 'asc'; // Default to ascending when a new column is selected
   }
 };
+
+//Routing
+import { useRouter } from 'vue-router'
+import PersonCard from '@/components/PersonCard.vue';
+const router = useRouter()
+const goToUser = (userId) => {
+  router.push({ name: 'PersonFull', params: { id: userId } });
+}
 </script>
 
 <style scoped>
-.people-list {
+/* .people-list {
   max-width: 100%;
   overflow-x: auto;
 }
@@ -127,5 +136,16 @@ tr:hover {
 .arrow-down::before {
   content: '↓';
   font-size: 16px;
-}
+} */
+  .people-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+ .card {
+  min-width: 300px;
+  max-width: 500px;
+  flex: 1;
+ }
 </style>

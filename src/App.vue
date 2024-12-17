@@ -4,7 +4,8 @@ import Header from '@/components/Header.vue';
 
 <template>
   <Header title="People (routing app)"
-    background-image="https://static.vecteezy.com/system/resources/previews/027/875/966/non_2x/large-mixed-group-of-multicultural-people-international-students-or-friends-diversity-concept-ai-generative-photo.jpg">
+    background-image="https://static.vecteezy.com/system/resources/previews/027/875/966/non_2x/large-mixed-group-of-multicultural-people-international-students-or-friends-diversity-concept-ai-generative-photo.jpg"
+    id="header">
   </Header>
 
   <main>
@@ -12,4 +13,8 @@ import Header from '@/components/Header.vue';
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+  #header {
+    margin-bottom: 20px;
+  }
+</style>
